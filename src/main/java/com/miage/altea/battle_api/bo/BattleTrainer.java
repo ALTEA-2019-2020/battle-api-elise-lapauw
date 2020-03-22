@@ -6,11 +6,21 @@ public class BattleTrainer {
     Trainer trainer;
     boolean nextTurn;
     List<BattlePokemon> battlePokemonList;
+    List<BattleObject> battleObjectList;
 
-    public BattleTrainer(Trainer trainer, boolean nextTurn, List<BattlePokemon> battlePokemonList) {
+    public BattleTrainer(Trainer trainer, boolean nextTurn, List<BattlePokemon> battlePokemonList, List<BattleObject> battleObjectList) {
         this.trainer = trainer;
         this.nextTurn = nextTurn;
         this.battlePokemonList = battlePokemonList;
+        this.battleObjectList = battleObjectList;
+    }
+
+    public List<BattleObject> getBattleObjectList() {
+        return battleObjectList;
+    }
+
+    public void setBattleObjectList(List<BattleObject> battleObjectList) {
+        this.battleObjectList = battleObjectList;
     }
 
     public Trainer getTrainer() {

@@ -1,14 +1,14 @@
 package com.miage.altea.battle_api.services;
 
-import com.miage.altea.battle_api.bo.Battle;
-import com.miage.altea.battle_api.bo.BattleTrainer;
-import com.miage.altea.battle_api.bo.Trainer;
+import com.miage.altea.battle_api.bo.*;
 import com.miage.altea.battle_api.repository.BattleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BattleServiceImpl implements BattleService {
@@ -29,17 +29,22 @@ public class BattleServiceImpl implements BattleService {
     }
 
     @Override
-    public List<Battle> getAllBattles() {
+    public Collection<Battle> getAllBattles() {
+        return this.battleRepository.findAllBattles();
+    }
+
+    @Override
+    public Battle getBattle(UUID uuid) {
+        return this.battleRepository.findBattleById(uuid);
+    }
+
+    @Override
+    public Battle attack(UUID uuid, String trainerName) {
         return null;
     }
 
     @Override
-    public Battle getBattle(String uuid) {
-        return null;
-    }
-
-    @Override
-    public Battle attack(String uuid, String trainerName) {
+    public Battle heal(UUID uuid, BattleObject object, BattlePokemon pokemon) {
         return null;
     }
 

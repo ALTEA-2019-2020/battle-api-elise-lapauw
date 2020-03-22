@@ -1,7 +1,9 @@
 package com.miage.altea.battle_api.bo;
 
+import java.util.UUID;
+
 public class Battle {
-    String uuid;
+    UUID uuid;
     BattleTrainer trainer;
     BattleTrainer opponent;
 
@@ -10,11 +12,11 @@ public class Battle {
         this.opponent = opponent;
     }
 
-    public String getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
