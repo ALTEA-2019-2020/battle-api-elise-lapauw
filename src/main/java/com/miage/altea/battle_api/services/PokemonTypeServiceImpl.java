@@ -1,7 +1,8 @@
 package com.miage.altea.battle_api.services;
 
-import com.miage.altea.battle_api.bo.Pokemon;
-import com.miage.altea.battle_api.bo.PokemonType;
+import com.miage.altea.battle_api.bo.Pokemon.Pokemon;
+import com.miage.altea.battle_api.bo.Pokemon.PokemonType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,7 +25,6 @@ public class PokemonTypeServiceImpl implements PokemonTypeService {
     }
 
     @Override
-    @Cacheable("pokemon-types")
     public PokemonType getPokemon(int id) {
         return restTemplate.getForObject(pokemonServiceUrl + "/pokemon-types/{id}", PokemonType.class, id);
     }

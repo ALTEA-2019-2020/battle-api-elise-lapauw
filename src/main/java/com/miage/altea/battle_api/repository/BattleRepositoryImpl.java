@@ -1,12 +1,14 @@
 package com.miage.altea.battle_api.repository;
 
-import com.miage.altea.battle_api.bo.Battle;
+import com.miage.altea.battle_api.bo.Battle.Battle;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class BattleRepositoryImpl implements BattleRepository {
 
-    Map<UUID, Battle> battles;
+    Map<UUID, Battle> battles = new HashMap<>();
 
     @Override
     public Battle findBattleById(UUID uuid) {
@@ -15,13 +17,12 @@ public class BattleRepositoryImpl implements BattleRepository {
 
     @Override
     public Collection<Battle> findAllBattles() {
-        return this.battles.values();
+        return this.battles != null ? this.battles.values() : new ArrayList<>();
     }
 
     @Override
     public void addBattle(Battle battle) {
-        UUID uuid = UUID.randomUUID();
-        this.battles.put(uuid, battle);
+        this.battles.put(battle.getUuid(), battle);
     }
 
     @Override

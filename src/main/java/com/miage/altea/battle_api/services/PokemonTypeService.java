@@ -1,6 +1,6 @@
 package com.miage.altea.battle_api.services;
 
-import com.miage.altea.battle_api.bo.PokemonType;
+import com.miage.altea.battle_api.bo.Pokemon.PokemonType;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;

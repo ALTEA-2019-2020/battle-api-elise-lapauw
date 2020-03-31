@@ -1,6 +1,6 @@
 package com.miage.altea.battle_api.services;
 
-import com.miage.altea.battle_api.bo.Trainer;
+import com.miage.altea.battle_api.bo.Pokemon.Trainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +24,8 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Value("${trainer.service.url}")
-    void setTrainerApiUrl(String pokemonServiceUrl) {
-        this.trainerApiUrl = pokemonServiceUrl;
+    void setTrainerApiUrl(String trainerApiUrl) {
+        this.trainerApiUrl = trainerApiUrl;
     }
 
     @Override
