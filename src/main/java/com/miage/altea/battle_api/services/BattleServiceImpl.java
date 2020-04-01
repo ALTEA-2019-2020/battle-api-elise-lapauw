@@ -122,6 +122,8 @@ public class BattleServiceImpl implements BattleService {
         int damage = (int) Math.floor((2*coeffLevel + 2*coeffAttack)+2);
         pokemonOpponent.get().setCurrentHpLevel(currentHp - damage);
         checkIfPokemonIsKo(pokemonOpponent);
+        trainer.setNextTurn(false);
+        opponent.setNextTurn(true);
     }
 
     private void checkIfPokemonIsKo(Optional<BattlePokemon> pokemon) {
