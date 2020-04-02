@@ -3,7 +3,6 @@ package com.miage.altea.battle_api.controller;
 import com.miage.altea.battle_api.bo.Battle.Battle;
 import com.miage.altea.battle_api.services.BattleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -29,8 +28,7 @@ public class BattleController {
 
     @CrossOrigin
     @PostMapping()
-    public Battle battles(@RequestParam(value = "trainer")String trainerName,
-                                     @RequestParam(value = "opponent")String opponentName) {
+    public Battle battles(@RequestParam(value = "trainer")String trainerName, @RequestParam(value = "opponent")String opponentName) {
         return this.battleService.createBattle(trainerName, opponentName);
     }
 

@@ -1,0 +1,224 @@
+{
+	"info": {
+		"_postman_id": "c0369c4e-f025-42d0-8571-27a39202e29b",
+		"name": "battle-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create battle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4d91e45-5f82-4209-b805-1f260ce9be19",
+						"exec": [
+							"pm.test(\"first trainer\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.trainer.trainer.name).to.eq(\"Ash\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"opponent\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.opponent.trainer.name).to.eq(\"Misty\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"battleid\", jsonData.uuid);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "36829d4e-8de1-402b-8258-84d53eaabbd2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "lapauw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\t\"trainerName\" : \"Ash\",\n\t\"opponentName\" : \"Misty\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://battle-api-lapauw.herokuapp.com/battles?trainer=Ash&opponent=Misty& ",
+					"protocol": "https",
+					"host": [
+						"battle-api-lapauw",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"battles"
+					],
+					"query": [
+						{
+							"key": "trainer",
+							"value": "Ash"
+						},
+						{
+							"key": "opponent",
+							"value": "Misty"
+						},
+						{
+							"key": " ",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-battles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ff28881-9494-499e-b995-0bac07251bff",
+						"exec": [
+							"pm.test(\"Trainer\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].trainer.trainer.name).to.eq(\"Ash\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Opponent\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].opponent.trainer.name).to.eq(\"Misty\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://battle-api-lapauw.herokuapp.com/battles",
+					"protocol": "https",
+					"host": [
+						"battle-api-lapauw",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"battles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-one-battle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "241344bf-d117-432d-9d34-dfab714e029d",
+						"exec": [
+							"pm.test(\"first trainer\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.trainer.trainer.name).to.eq(\"Ash\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"opponent\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.opponent.trainer.name).to.eq(\"Misty\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://battle-api-lapauw.herokuapp.com/battles/{{battleid}}",
+					"protocol": "https",
+					"host": [
+						"battle-api-lapauw",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"battles",
+						"{{battleid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "attack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07f4918c-6635-486f-a540-7e482a5a65cb",
+						"exec": [
+							"pm.test(\"opponent pokemon hp are lower than maxHp\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.opponent.battlePokemonList[0].currentHpLevel < jsonData.opponent.battlePokemonList[0].maxHp);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"trainer pokemon hp are unchanged\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.trainer.battlePokemonList[0].currentHpLevel == jsonData.trainer.battlePokemonList[0].maxHp);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://battle-api-lapauw.herokuapp.com/battles/{{battleid}}/Ash/attack",
+					"protocol": "https",
+					"host": [
+						"battle-api-lapauw",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"battles",
+						"{{battleid}}",
+						"Ash",
+						"attack"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

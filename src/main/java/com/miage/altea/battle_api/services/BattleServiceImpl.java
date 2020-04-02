@@ -7,11 +7,11 @@ import com.miage.altea.battle_api.bo.Battle.BattleTrainer;
 import com.miage.altea.battle_api.bo.Pokemon.Pokemon;
 import com.miage.altea.battle_api.bo.Pokemon.PokemonType;
 import com.miage.altea.battle_api.bo.Pokemon.Trainer;
+import com.miage.altea.battle_api.exceptions.ApiError;
 import com.miage.altea.battle_api.repository.BattleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +42,9 @@ public class BattleServiceImpl implements BattleService {
     public Battle createBattle(String trainerName, String opponentName) {
         Trainer trainer = this.trainerService.getTrainer(trainerName);
         Trainer opponent = this.trainerService.getTrainer(opponentName);
+        if (trainer == null || opponent == null) {
+            throw new ApiError(HttpStatus.NOT_FOUND, "One of the trainer doesn't exist. Please check again");
+        }
         BattleTrainer t = new BattleTrainer(trainer, false, new ArrayList<BattlePokemon>());
         initTeam(t);
         BattleTrainer o = new BattleTrainer(opponent, false, new ArrayList<BattlePokemon>());
@@ -73,7 +76,11 @@ public class BattleServiceImpl implements BattleService {
 
     @Override
     public Battle getBattle(UUID uuid) {
-        return this.battleRepository.findBattleById(uuid);
+        Battle battle = this.battleRepository.findBattleById(uuid);
+        if (battle == null) {
+            throw new ApiError(HttpStatus.NOT_FOUND, "This battle doesn't exist");
+        }
+        return battle;
     }
 
     @Override
@@ -103,10 +110,18 @@ public class BattleServiceImpl implements BattleService {
     private void getattacker(UUID uuid, String trainerName) {
         Battle battle = this.getBattle(uuid);
         if (trainerName.equals(battle.getTrainer().getTrainer().getName())) {
-            attackOnce(battle.getTrainer(), battle.getOpponent());
+            if (battle.getTrainer().isNextTurn()) {
+                attackOnce(battle.getTrainer(), battle.getOpponent());
+            } else {
+                throw new ApiError(HttpStatus.BAD_REQUEST, "It's the opponent's turn to attack !");
+            }
         } else {
             if (trainerName.equals(battle.getOpponent().getTrainer().getName())) {
-                attackOnce(battle.getOpponent(), battle.getTrainer());
+                if (battle.getOpponent().isNextTurn()) {
+                    attackOnce(battle.getOpponent(), battle.getTrainer());
+                } else {
+                    throw new ApiError(HttpStatus.BAD_REQUEST, "It's your turn to attack !");
+                }
             }
         }
     }
